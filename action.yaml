@@ -1,0 +1,26 @@
+name: 'Terminate EC2 Runner'
+description: 'Stop EC2 instance used for GitHub self-hosted runner'
+inputs:
+  github-token:
+    required: true
+    description: 'GitHub Token with permissions to deregister runners'
+
+  runner-label:
+    required: true
+    description: 'The label of the Github runner to remove'
+
+  instance-id:
+    required: true
+    description: 'The instance ID of the EC2 instance to terminate'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Terminate EC2 Instance
+      id: ec2-runner-terminate
+      shell: bash
+      run: ${{ github.action_path }}/terminate-instance.sh
+      env:
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_RUNNER_LABEL: ${{ inputs.runner-label }}
+        INPUT_EC2_INSTANCE_ID: ${{ inputs.instance-id }}
