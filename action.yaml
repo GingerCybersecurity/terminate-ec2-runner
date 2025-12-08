@@ -1,5 +1,10 @@
 name: 'Terminate EC2 Runner'
-description: 'Stop EC2 instance used for GitHub self-hosted runner'
+description: 'Delete EC2 instance used for GitHub self-hosted runner'
+
+branding:
+  icon: 'cloud'
+  color: 'orange'
+
 inputs:
   instance-id:
     required: true
