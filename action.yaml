@@ -9,6 +9,16 @@ inputs:
   instance-id:
     required: true
     description: 'The instance ID of the EC2 instance to terminate'
+  cleanup-stale-tag-key:
+    required: false
+    description: 'EC2 tag key to filter stale instances for cleanup. Must be provided together with cleanup-stale-tag-value.'
+  cleanup-stale-tag-value:
+    required: false
+    description: 'EC2 tag value to filter stale instances for cleanup. Must be provided together with cleanup-stale-tag-key.'
+  cleanup-stale-minutes:
+    required: false
+    default: '60'
+    description: 'When using stale cleanup, only terminate instances that have been running for at least this many minutes.'
 
 runs:
   using: 'composite'
@@ -19,3 +29,6 @@ runs:
       run: ${{ github.action_path }}/terminate-instance.sh
       env:
         INPUT_EC2_INSTANCE_ID: ${{ inputs.instance-id }}
+        INPUT_CLEANUP_STALE_TAG_KEY: ${{ inputs.cleanup-stale-tag-key }}
+        INPUT_CLEANUP_STALE_TAG_VALUE: ${{ inputs.cleanup-stale-tag-value }}
+        INPUT_CLEANUP_STALE_MINUTES: ${{ inputs.cleanup-stale-minutes }}
